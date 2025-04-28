@@ -19,13 +19,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+/**
+ * Тестовый класс для проверки функциональности CSVWriter.
+ */
 class CSVWriterTest {
     private final Faker faker = new Faker();
     private final CSVWriter csvWriter = new CSVWriter();
     @TempDir
     Path tempDir;
 
-    // Тест 1: Пустая коллекция
+    /**
+     * Тест проверяет выброс исключения при попытке записи пустого списка.
+     */
     @Test
     void whenEmptyList_thenThrowIllegalArgumentException() {
         List<Person> emptyList = Collections.emptyList();
@@ -33,7 +39,9 @@ class CSVWriterTest {
                 () -> csvWriter.writeToFile(emptyList, "emptyList.csv"));
     }
 
-    // Тест 2: Отсутствует аннотация @CSVEntity
+    /**
+     * Тест проверяет выброс исключения при попытке записи класса без аннотации @CSVEntity.
+     */
     @Test
     void whenClassNotAnnotated_thenThrowCSVAnnotationNotFoundException() {
         class NotAnnotatedClass {
@@ -45,7 +53,11 @@ class CSVWriterTest {
                 () -> csvWriter.writeToFile(data, "notAnnotated.csv"));
     }
 
-    // Тест 3: Ошибка записи в файл (IOException)
+    /**
+     * Тест проверяет выброс исключения при ошибке записи в файл.
+     *
+     * @throws IOException если возникла ошибка при работе с файловой системой
+     */
     @Test
     void whenInvalidFilePath_thenThrowCSVWriteException() throws IOException {
         List<Person> data = List.of(createTestPerson());
@@ -60,8 +72,11 @@ class CSVWriterTest {
                 () -> csvWriter.writeToFile(data, tempFile.getAbsolutePath()));
     }
 
-
-    // Тест 4: Успешная запись в файл
+    /**
+     * Тест проверяет успешную запись данных в CSV файл.
+     *
+     * @throws IOException если возникла ошибка при чтении файла
+     */
     @Test
     void whenValidData_thenCreateCorrectCSVFile() throws IOException {
         Person person = createTestPerson();
@@ -79,6 +94,11 @@ class CSVWriterTest {
         );
     }
 
+    /**
+     * Создает тестовый объект Person со случайными данными.
+     *
+     * @return объект Person со случайными данными
+     */
     private Person createTestPerson() {
         return Person.builder()
                 .firstName(faker.name().firstName())

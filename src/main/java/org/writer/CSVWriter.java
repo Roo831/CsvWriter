@@ -12,6 +12,16 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public class CSVWriter implements Writable {
+
+    /**
+     * Записывает список объектов в CSV файл.
+     *
+     * @param data список объектов для записи
+     * @param fileName имя файла для записи
+     * @throws IllegalArgumentException если передан пустой список
+     * @throws CSVAnnotationNotFoundException если класс объекта не аннотирован @CSVEntity
+     * @throws CSVWriteException если произошла ошибка при записи в файл
+     */
     @Override
     public void writeToFile(List<?> data, String fileName) throws IllegalArgumentException {
 
@@ -41,6 +51,12 @@ public class CSVWriter implements Writable {
         }
     }
 
+    /**
+     * Генерирует строку заголовка CSV на основе аннотаций полей класса.
+     *
+     * @param clazz класс объекта
+     * @return строка с заголовками столбцов CSV
+     */
     private String generateHeader(Class<?> clazz) {
         StringBuilder header = new StringBuilder();
 
@@ -56,6 +72,13 @@ public class CSVWriter implements Writable {
         return header.substring(0, header.length() - 1);
     }
 
+    /**
+     * Генерирует строку данных CSV для одного объекта.
+     *
+     * @param obj объект для преобразования в CSV строку
+     * @return CSV строка с данными объекта
+     * @throws CSVWriteException если произошла ошибка доступа к полю объекта
+     */
     private String generateRow(Object obj) {
         StringBuilder row = new StringBuilder();
         for (Field field : obj.getClass().getDeclaredFields()) {
