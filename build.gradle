@@ -1,0 +1,56 @@
+plugins {
+    id 'java' // подключение стандартного плагина java, с необходимыми стандартными тасками для билдинга проекта
+    id 'application' // плагин для запуска приложения
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // плагин для создания fat JAR
+    id 'idea' // для лучшей интеграции с IntelliJ IDEA
+}
+
+group = 'org.writer' // группа
+version = '1.0-SNAPSHOT' // версия
+
+application {
+    mainClass = 'org.writer.Main' // явное указание главного класса
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17) // версия java
+    }
+}
+
+repositories {
+    mavenCentral() // удаленный репозиторий - стандартный maven central
+}
+
+dependencies { // зависимости
+    implementation 'net.datafaker:datafaker:2.4.3' // компиляция и рантайм
+    implementation 'org.apache.commons:commons-csv:1.10.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+
+    compileOnly 'org.projectlombok:lombok:1.18.34' // компиляция
+    annotationProcessor 'org.projectlombok:lombok:1.18.34' // компиляция аннотаций
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1' // только для тестов, зависимости не попадают в основной проект
+}
+
+test {
+    useJUnitPlatform() // явное указание платформы для тестирования - JUnit 5
+}
+
+shadowJar {
+    archiveBaseName = 'csv-writer'
+    archiveClassifier = ''
+    archiveVersion = ''
+
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass,
+                'Implementation-Version': version
+        )
+    }
+
+    minimize() // Оптимизация размера JAR
+}
+
+tasks.build.dependsOn tasks.shadowJar
