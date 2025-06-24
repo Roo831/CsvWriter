@@ -35,3 +35,20 @@ dependencies { // зависимости
 test {
     useJUnitPlatform() // явное указание платформы для тестирования - JUnit 5
 }
+
+shadowJar {
+    archiveBaseName = 'csv-writer'
+    archiveClassifier = ''
+    archiveVersion = ''
+
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass,
+                'Implementation-Version': version
+        )
+    }
+
+    minimize() // Оптимизация размера JAR
+}
+
+tasks.build.dependsOn tasks.shadowJar
