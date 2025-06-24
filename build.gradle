@@ -1,5 +1,8 @@
 plugins {
     id 'java' // подключение стандартного плагина java, с необходимыми стандартными тасками для билдинга проекта
+    id 'application' // плагин для запуска приложения
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // плагин для создания fat JAR
+    id 'idea' // для лучшей интеграции с IntelliJ IDEA
 }
 
 group = 'org.writer' // группа
