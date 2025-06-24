@@ -25,6 +25,8 @@ repositories {
 dependencies { // зависимости
     implementation 'net.datafaker:datafaker:2.4.3' // компиляция и рантайм
     implementation 'org.apache.commons:commons-csv:1.10.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-collections4:4.4'
 
     compileOnly 'org.projectlombok:lombok:1.18.34' // компиляция
     annotationProcessor 'org.projectlombok:lombok:1.18.34' // компиляция аннотаций
