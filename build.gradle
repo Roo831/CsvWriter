@@ -8,6 +8,10 @@ plugins {
 group = 'org.writer' // группа
 version = '1.0-SNAPSHOT' // версия
 
+application {
+    mainClass = 'org.writer.Main' // явное указание главного класса
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17) // версия java
